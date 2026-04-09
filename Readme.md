@@ -32,3 +32,16 @@ The repository currently contains the initial plan and roadmap for the QA agent 
 
 5. **Interactive interface**  
    - Simple Streamlit app for testing questions interactively
+
+## Data collection and preprocessing
+
+```bash
+# Set email (NCBI requirement)
+export ENTREZ_EMAIL="your_email@example.com"
+
+# Fetch the raw data
+python scripts/download_data.py
+
+# Run the preprocessing
+python scripts/preprocess_data.py
+```
