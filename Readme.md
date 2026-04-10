@@ -7,10 +7,12 @@ The goal of this project is to create an **intelligent agent** that can:
 - Summarize and provide clear answers to biomedical questions
 - (Future) Suggest potential drug candidates or mechanisms based on retrieved literature
 
+*This project is built with the support of AI-assisted tools as part of an active learning process in biomedical machine learning and software engineering. The goal is to accelerate exploration while maintaining full understanding of the underlying methods and implementations.*
+
 ## Project Status
 
 This is a **work-in-progress project**. 
-The repository currently contains the initial plan and roadmap for the QA agent *(Readme file)*
+*The repository currently contains the initial plan and roadmap for the QA agent.*
 
 ## Roadmap
 
@@ -44,4 +46,10 @@ python scripts/download_data.py
 
 # Run the preprocessing
 python scripts/preprocess_data.py
+```
+
+## Generate the embeddings
+
+```bash
+python scripts/build_embeddings.py
 ```
