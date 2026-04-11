@@ -17,22 +17,22 @@ This is a **work-in-progress project**.
 ## Roadmap
 
 1. **Data collection & preprocessing**  
-   - Download PubMed abstracts and DrugBank / ChEMBL datasets  
+   - Download PubMed abstracts
    - Clean and structure data for retrieval  
 
 2. **Embeddings & retrieval**  
-   - Convert abstracts to vector embeddings using BioBERT or PubMedBERT  
-   - Implement a simple retrieval system (FAISS / Chroma)
+   - Convert abstracts to vector embeddings
+   - Implement a simple retrieval system
 
-3. **QA agent prototype**  
+3. QA agent prototype
    - Initial agent to answer biomedical questions using retrieved documents  
    - Summarization of abstracts for concise responses
 
-4. **Evaluation & improvements**  
+4. Evaluation & improvements
    - Metrics for answer relevance and quality  
    - Optional scoring of drug candidates
 
-5. **Interactive interface**  
+5. Interactive interface  
    - Simple Streamlit app for testing questions interactively
 
 ## Data collection and preprocessing
@@ -49,6 +49,8 @@ python scripts/preprocess_data.py
 ```
 
 ## Generate the embeddings
+
+*I initially used FAISS but replaced it with cosine similarity (sklearn-based approach) due to stability issues on local environments. This alternative approach is sufficient for small-scale datasets and thus the scope of this project.*
 
 ```bash
 python scripts/build_embeddings.py
