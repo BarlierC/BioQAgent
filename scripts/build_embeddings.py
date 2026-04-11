@@ -1,6 +1,5 @@
 import pandas as pd
 from sentence_transformers import SentenceTransformer
-import faiss
 import numpy as np
 import os
 
@@ -23,7 +22,7 @@ def load_data(path):
 
 def compute_embeddings(texts, model):
     """
-    Convert a list of texts into vector embeddings using a pre-trained model.
+    Compute dense vector embeddings for a list of texts.
 
     Args:
         texts (list[str]): List of input texts (e.g., title + abstract).
@@ -32,28 +31,10 @@ def compute_embeddings(texts, model):
     Returns:
         np.ndarray: Matrix of embeddings (n_samples x embedding_dim).
     """
-    return model.encode(texts, show_progress_bar=True)
+    embeddings = model.encode(texts, show_progress_bar=True)
 
-
-def build_faiss_index(embeddings):
-    """
-    Build a FAISS index for fast similarity search.
-
-    Args:
-        embeddings (np.ndarray): Matrix of embeddings.
-
-    Returns:
-        faiss.Index: FAISS index containing all embeddings.
-    """
-    dim = embeddings.shape[1]
-
-    # L2 distance (Euclidean)
-    index = faiss.IndexFlatL2(dim)
-
-    # add vectors to index
-    index.add(embeddings)  
-
-    return index
+    # Ensure float32 for memory efficiency
+    return np.array(embeddings).astype("float32")
 
 
 if __name__ == "__main__":
@@ -73,13 +54,8 @@ if __name__ == "__main__":
     print("Computing embeddings...")
     embeddings = compute_embeddings(texts, model)
 
-    # Step 4: Build FAISS index
-    print("Building FAISS index...")
-    index = build_faiss_index(embeddings)
-
-    # Step 5: Save results
-    print("Saving index and embeddings...")
-    faiss.write_index(index, "data/processed/faiss_index.bin")
+    # Step 4: Save results
+    print("Saving embeddings...")
     np.save("data/processed/embeddings.npy", embeddings)
 
     print("Finished !")
