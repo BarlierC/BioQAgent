@@ -1,0 +1,22 @@
+[
+  {
+    "query": "JAK2 inhibitors in cancer",
+    "keywords": ["JAK2", "inhibitor", "cancer"]
+  },
+  {
+    "query": "EGFR targeted therapy",
+    "keywords": ["EGFR", "target", "therapy"]
+  },
+  {
+    "query": "Alzheimer disease treatment targets",
+    "keywords": ["Alzheimer", "target", "treatment"]
+  },
+  {
+    "query": "ER therapries in breast cancer",
+    "keywords": ["ER", "therapy", "breast", "cancer"]
+  },
+  {
+    "query": "Parkison disease treatment targets",
+    "keywords": ["Parkison", "target", "treatment"]
+  }
+]
