@@ -11,8 +11,49 @@ The goal of this project is to create an **intelligent agent** that can:
 
 ## Project Status
 
-This is a **work-in-progress project**. 
-*The repository currently contains the initial plan and roadmap for the QA agent.*
+This is a **work-in-progress project**: lightweight QA agent has been implemented. 
+**Current stage**: simple UI development.
+
+## Roadmap
+
+1. **Data collection & preprocessing**  
+   - Download PubMed abstracts
+   - Clean and structure data for retrieval  
+
+2. **Embeddings & retrieval**  
+   - Convert abstracts to vector embeddings
+   - Implement a simple retrieval system
+   - Evaluation: metrics for answer relevance and quality 
+
+3. **QA agent prototype**
+   - Initial agent to answer biomedical questions using retrieved documents  
+   - Summarization of abstracts for concise responses
+
+4. Interactive interface  
+   - Simple Streamlit app for testing questions interactively
+
+## Data collection and preprocessing
+
+```bash
+# Set email (NCBI requirement)
+export ENTREZ_EMAIL="your_email@example.com"
+
+# Fetch the raw data
+python scripts/download_data.py
+
+# Run the preprocessing
+python scripts/preprocess_data.py
+```
+
+## Generate the embeddings
+
+*I initially used FAISS but replaced it with cosine similarity (sklearn-based approach) due to stability issues on local environments. This alternative approach is sufficient for small-scale datasets and thus the scope of this project.*
+
+```bash
+python scripts/build_embeddings.py
+```
+
+## QA agent prototype
 
 ### LLM-based QA Agent
 
@@ -40,49 +81,8 @@ The **full implementation of the LLM-based QA agent** based on **Ollama phi3 mod
 
 ### Alternative: lightweight QA Agent
 
-Given these previously mentionned constraints, the new design provides a **strong tread-off between performance and interpretability**. This part is an **ongoing work** aiming at implementing a **lightweight extractive QA approach** with:
+Given these previously mentionned constraints, the new design provides a **strong tread-off between performance and interpretability**. A **lightweight extractive QA approach** was implemented with:
 - Semantic retrieval (SentenceTransformers)
 - Sentence-level similarity scoring
 - Extraction of the most relevant evidence
 
-## Roadmap
-
-1. **Data collection & preprocessing**  
-   - Download PubMed abstracts
-   - Clean and structure data for retrieval  
-
-2. **Embeddings & retrieval**  
-   - Convert abstracts to vector embeddings
-   - Implement a simple retrieval system
-
-3. **QA agent prototype**
-   - Initial agent to answer biomedical questions using retrieved documents  
-   - Summarization of abstracts for concise responses
-
-4. Evaluation & improvements
-   - Metrics for answer relevance and quality  
-   - Optional scoring of drug candidates
-
-5. Interactive interface  
-   - Simple Streamlit app for testing questions interactively
-
-## Data collection and preprocessing
-
-```bash
-# Set email (NCBI requirement)
-export ENTREZ_EMAIL="your_email@example.com"
-
-# Fetch the raw data
-python scripts/download_data.py
-
-# Run the preprocessing
-python scripts/preprocess_data.py
-```
-
-## Generate the embeddings
-
-*I initially used FAISS but replaced it with cosine similarity (sklearn-based approach) due to stability issues on local environments. This alternative approach is sufficient for small-scale datasets and thus the scope of this project.*
-
-```bash
-python scripts/build_embeddings.py
-```
