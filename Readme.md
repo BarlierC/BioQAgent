@@ -6,8 +6,6 @@ This project implements a **Biomedical Question Answering (QA) system** built on
 
 The initial objective was to design a **Retrieval-Augmented Generation (RAG)** pipeline combining semantic search and LLM generation. However, due to hardware and cost constraints, the project evolved into a **lightweight, fully local and interpretable QA system**.
 
-*This project is built with the support of AI-assisted tools as part of an active learning process in biomedical machine learning and software engineering. The goal is to accelerate exploration while maintaining full understanding of the underlying methods and implementations.*
-
 ## Pipeline
 
 ```
@@ -109,7 +107,7 @@ A simple interactive demo is available via Streamlit:
 streamlit run app/streamlit_app.py
 ```
 
-<img src="app/app_demo_screenshot.png" width="450">
+<img src="app/app_demo_screenshot.png" width="800">
 
 ## Future work
 
