@@ -1,38 +1,34 @@
-# BioQAgent
+# Biomedical QA Agent (Lightweight RAG System)
 
-**BioQAgent** is a biomedical question-answering (QA) agent designed to assist researchers and healthcare professionals in **exploring drug discovery literature**.  
+**BioQAgent** is a biomedical question-answering (QA) agent designed to assist researchers and healthcare professionals in **exploring drug discovery literature**. 
 
-The goal of this project is to create an **intelligent agent** that can:
-- Retrieve relevant scientific abstracts from public biomedical databases (e.g., PubMed, DrugBank, ChEMBL)
-- Summarize and provide clear answers to biomedical questions
-- (Future) Suggest potential drug candidates or mechanisms based on retrieved literature
+This project implements a **Biomedical Question Answering (QA) system** built on top of PubMed abstracts.
+
+The initial objective was to design a **Retrieval-Augmented Generation (RAG)** pipeline combining semantic search and LLM generation. However, due to hardware and cost constraints, the project evolved into a **lightweight, fully local and interpretable QA system**.
 
 *This project is built with the support of AI-assisted tools as part of an active learning process in biomedical machine learning and software engineering. The goal is to accelerate exploration while maintaining full understanding of the underlying methods and implementations.*
 
-## Project Status
+## Pipeline
 
-This is a **work-in-progress project**: lightweight QA agent has been implemented. 
-**Current stage**: simple UI development.
+```
+User query
+   ↓
+Semantic retrieval (SentenceTransformers)
+   ↓
+Top-k relevant abstracts
+   ↓
+Sentence-level ranking
+   ↓
+Extractive answer
+```
 
-## Roadmap
+## Data
 
-1. **Data collection & preprocessing**  
-   - Download PubMed abstracts
-   - Clean and structure data for retrieval  
-
-2. **Embeddings & retrieval**  
-   - Convert abstracts to vector embeddings
-   - Implement a simple retrieval system
-   - Evaluation: metrics for answer relevance and quality 
-
-3. **QA agent prototype**
-   - Initial agent to answer biomedical questions using retrieved documents  
-   - Summarization of abstracts for concise responses
-
-4. Interactive interface  
-   - Simple Streamlit app for testing questions interactively
-
-## Data collection and preprocessing
+**Source: PubMed abstracts**
+Size: ~2,000 documents
+Processing:
+- cleaning (title + abstract)
+- embedding generation using `all-MiniLM-L6-v2`
 
 ```bash
 # Set email (NCBI requirement)
@@ -43,15 +39,23 @@ python scripts/download_data.py
 
 # Run the preprocessing
 python scripts/preprocess_data.py
-```
 
-## Generate the embeddings
-
-*I initially used FAISS but replaced it with cosine similarity (sklearn-based approach) due to stability issues on local environments. This alternative approach is sufficient for small-scale datasets and thus the scope of this project.*
-
-```bash
+# Generate embeddings
 python scripts/build_embeddings.py
 ```
+
+## Retrieval system
+
+**Model: SentenceTransformers** (`all-MiniLM-L6-v2`)
+**Similarity: Cosine similarity** (sklearn)
+Output: Top-k most relevant abstracts
+
+## Evaluation
+
+To assess retrieval quality, multiple metrics were used:
+- **Precision** at k=5
+- **Reciprocal Rank (MRR)**
+- **Ranking gap** (confidence signal)
 
 ## QA agent prototype
 
@@ -79,10 +83,44 @@ As a result: generated answers could not be evaluated and the **RAG pipeline cou
 The **full implementation of the LLM-based QA agent** based on **Ollama phi3 model** is **still included in this repository** in the experimental/LLM_QA/ folder (python module and notebook)
 *Note: this code is provided for completeness but was not fully executed due to the limitations described above.*
 
-### Alternative: lightweight QA Agent
+### Final approach: lightweight QA Agent
 
-Given these previously mentionned constraints, the new design provides a **strong tread-off between performance and interpretability**. A **lightweight extractive QA approach** was implemented with:
-- Semantic retrieval (SentenceTransformers)
-- Sentence-level similarity scoring
-- Extraction of the most relevant evidence
+Given these previously mentionned constraints, the **lightweight extractive QA approach** implemented provides a **strong tread-off between performance and interpretability**. 
 
+#### Method
+
+- Retrieve top relevant abstracts
+- Split abstracts into sentences
+- Rank sentences using embedding similarity
+- Return top-ranked sentences as answer
+
+#### Limitations
+
+- Extractive approach: no true generative reasoning
+- Limited paraphrasing capability
+- Keyword-based evaluation (approximate relevance)
+- Small dataset (~2k abstracts)
+
+#### App
+
+A simple interactive demo is available via Streamlit:
+
+```bash
+streamlit run app/streamlit_app.py
+```
+
+<img src="app/app_demo_screenshot.png" width="450">
+
+## Future work
+
+- Extended validation of the performances (e.g. more test queries)
+- Expand the dataset (larger biomedical corpora)
+- Deploy as a web application
+
+*Optional: implement an LLM-based generation (RAG) using cloud computing resources (main limitation: cost)*
+
+## Note
+
+Parts of this project were **developed with the assistance of AI tools** to accelerate prototyping and explore different architectural approaches.
+
+All design decisions, evaluation strategy, and implementation choices were critically reviewed and adapted.
